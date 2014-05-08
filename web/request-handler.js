@@ -32,18 +32,44 @@ exports.handleRequest = function (req, res) {
       data += chunk;
     });
     req.on('end', function(){
-      var loadingPath = archive.paths.siteAssets + '/loading.html';
-      data = data.substring(4) + '\n';
-      fs.appendFile(archive.paths.list, data, function(err){
-        console.log(err);
-      });
-      res.writeHead(302, httpHelpers.headers);
-      fs.readFile(loadingPath, function(err, data){
-        res.end(data.toString());
+      data = data.substring(4);
+      archive.isUrlInList(data, function(URLinList){
+        if (URLinList){
+          console.log("hi!!!!!");
+          archive.isURLArchived(data, function (data) {
+            console.log("data",data);
+            if(data) {
+              res.writeHead(200, httpHelpers.headers);
+              res.end(data);
+              // console.log("your url is archived, yay!", data);
+            } else {
+              archive.loadingPage(res);
+              // res.writeHead(404, httpHelpers.headers);
+              // res.end();
+              console.log("URLinArchive is false");
+            }
+          });
+        } else {
+          archive.loadingPage(res);
+        }
       });
     });
+
+
+      //   console.log('hi');
+      //   if (archive.isURLArchived(data)) {
+      //     fs.readFile()// read archived file from the input path
+      //   } else {
+      //     archive.loadingPage(res);
+      //   }
+      // } else {
+      //   console.log('else')
+      //   archive.loadingPage(res);
+      // }
+
+
   } else {
-    res.writeHead(404, httpHelpers.headers)
+    res.writeHead(404, httpHelpers.headers);
     res.end(archive.paths.list);
   }
 
