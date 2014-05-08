@@ -1,3 +1,8 @@
 www.google.com
-www.hackreactor.com
 www.reddit.com
+www.hackreactor.com
+www.facebook.com
+www.9gag.com
+www.uber.com
+www.hipmunk.com
+www.twitter.com
