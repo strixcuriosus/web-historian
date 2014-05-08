@@ -80,7 +80,9 @@ exports.isUrlInList = function(inputURL, callback){
   // return false;
 };
 
-exports.addUrlToList = function(path, data){
+exports.addUrlToList = function(data){
+  var path = exports.paths.list;
+  data += "\n";
   fs.appendFile(path, data, function(err){
         console.log(err);
   });
@@ -93,10 +95,12 @@ exports.isURLArchived = function(inputURL, callback){
     // console.log(data.toString());
     if (err) {
       console.log(err);
-      throw(err);
+      // throw(err);
+      data = false;
     }
-    callback(data.toString());
-      return data.toString();
+    // data = data.toString();
+    callback(data);
+      // return data.toString();
 
     // return data.toString() || "nodata";
   });
